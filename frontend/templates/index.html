@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Book Assistant - Your PDF Reading Companion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Book Assistant</span>
+                </div>
+                <div class="header-actions">
+                    <span class="user-email" id="userEmail" title="Signed-in account"></span>
+                    <button type="button" class="header-link" id="btnLogout">Log out</button>
+                    <button class="theme-toggle" id="themeToggle" title="Toggle Theme" type="button">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero">
+                <h1 class="hero-title">
+                    Transform Your Reading
+                    <span class="gradient-text">with AI Power</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Upload any PDF book, ask questions, get summaries, and listen to content with text-to-speech
+                </p>
+            </section>
+
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="glass-card upload-card">
+                    <div class="card-header">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h2>Upload PDF Book</h2>
+                    </div>
+                    <div class="upload-area" id="uploadArea">
+                        <input type="file" id="pdfInput" accept=".pdf" hidden>
+                        <div class="upload-icon">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <p class="upload-text">Drag & drop your PDF here</p>
+                        <p class="upload-subtext">or click to browse</p>
+                        <button type="button" class="btn btn-primary" id="uploadBtn">
+                            <i class="fas fa-upload"></i>
+                            Choose File
+                        </button>
+                    </div>
+                    <div class="upload-status" id="uploadStatus"></div>
+                </div>
+            </section>
+
+            <!-- Document History Section -->
+            <section class="history-section" id="historySection" style="display: none;">
+                <div class="glass-card history-card">
+                    <div class="card-header">
+                        <i class="fas fa-history"></i>
+                        <h2>Document History</h2>
+                        <button type="button" class="btn btn-secondary btn-sm" id="refreshHistoryBtn">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                    </div>
+                    <div class="history-list" id="historyList">
+                        <div class="history-empty" id="historyEmpty">
+                            <i class="fas fa-folder-open"></i>
+                            <p>No previous documents found</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Action Buttons -->
+            <section class="actions-section" id="actionsSection" style="display: none;">
+                <div class="glass-card actions-card">
+                    <div class="actions-grid">
+                        <button type="button" class="action-btn" id="askBtn" disabled>
+                            <div class="action-icon">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <span>Ask Questions</span>
+                        </button>
+                        <button type="button" class="action-btn" id="summarizeBtn" disabled>
+                            <div class="action-icon">
+                                <i class="fas fa-list-alt"></i>
+                            </div>
+                            <span>Generate Summary</span>
+                        </button>
+                        <button type="button" class="action-btn" id="insightsBtn" disabled>
+                            <div class="action-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <span>Key Insights</span>
+                        </button>
+                        <button type="button" class="action-btn" id="translateBtn" disabled>
+                            <div class="action-icon">
+                                <i class="fas fa-language"></i>
+                            </div>
+                            <span>Translate</span>
+                        </button>
+                        <button type="button" class="action-btn" id="sentimentBtn" disabled>
+                            <div class="action-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <span>Sentiment Analysis</span>
+                        </button>
+                        <button type="button" class="action-btn" id="speakBtn" disabled>
+                            <div class="action-icon">
+                                <i class="fas fa-volume-up"></i>
+                            </div>
+                            <span>Listen to Summary</span>
+                        </button>
+                        <button type="button" class="action-btn action-btn-danger" id="clearBtn">
+                            <div class="action-icon">
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                            <span>Clear All</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Question Modal -->
+            <div class="modal" id="questionModal">
+                <div class="modal-overlay"></div>
+                <div class="modal-content glass-card">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-question-circle"></i> Ask a Question</h3>
+                        <button type="button" class="modal-close" id="closeQuestionModal">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea 
+                            id="questionInput" 
+                            class="question-input" 
+                            placeholder="What would you like to know about this book?"
+                            rows="4"
+                        ></textarea>
+                        <button type="button" class="btn btn-primary btn-block" id="submitQuestion">
+                            <i class="fas fa-paper-plane"></i>
+                            Ask Question
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <!-- Q&A Result -->
+                <div class="glass-card result-card" id="qaResult" style="display: none;">
+                    <div class="card-header">
+                        <i class="fas fa-comments"></i>
+                        <h2>Answer</h2>
+                    </div>
+                    <div class="result-content">
+                        <div class="question-display">
+                            <span class="label">Question:</span>
+                            <p id="questionText"></p>
+                        </div>
+                        <div class="answer-display">
+                            <span class="label">Answer:</span>
+                            <p id="answerText"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Result -->
+                <div class="glass-card result-card" id="summaryResult" style="display: none;">
+                    <div class="card-header">
+                        <i class="fas fa-file-alt"></i>
+                        <h2>Summary</h2>
+                    </div>
+                    <div class="result-content">
+                        <p id="summaryText"></p>
+                    </div>
+                </div>
+
+                <!-- Insights Result -->
+                <div class="glass-card result-card" id="insightsResult" style="display: none;">
+                    <div class="card-header">
+                        <i class="fas fa-lightbulb"></i>
+                        <h2>Key Insights</h2>
+                    </div>
+                    <div class="result-content">
+                        <div id="insightsText"></div>
+                    </div>
+                </div>
+
+                <!-- Translation Result -->
+                <div class="glass-card result-card" id="translationResult" style="display: none;">
+                    <div class="card-header">
+                        <i class="fas fa-language"></i>
+                        <h2>Translation</h2>
+                    </div>
+                    <div class="result-content">
+                        <div class="translation-info">
+                            <span class="label">Target Language:</span>
+                            <span id="targetLanguage"></span>
+                        </div>
+                        <div id="translationText"></div>
+                    </div>
+                </div>
+
+                <!-- Sentiment Analysis Result -->
+                <div class="glass-card result-card" id="sentimentResult" style="display: none;">
+                    <div class="card-header">
+                        <i class="fas fa-chart-line"></i>
+                        <h2>Sentiment Analysis</h2>
+                    </div>
+                    <div class="result-content">
+                        <div id="sentimentText"></div>
+                    </div>
+                </div>
+
+                <!-- Audio Player -->
+                <div class="glass-card audio-card" id="audioCard" style="display: none;">
+                    <div class="card-header">
+                        <i class="fas fa-headphones"></i>
+                        <h2>Audio Summary</h2>
+                    </div>
+                    <div class="audio-player">
+                        <audio id="audioPlayer" controls>
+                            Your browser does not support audio playback.
+                        </audio>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Translate Modal -->
+            <div class="modal" id="translateModal">
+                <div class="modal-overlay"></div>
+                <div class="modal-content glass-card">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-language"></i> Translate Document</h3>
+                        <button type="button" class="modal-close" id="closeTranslateModal">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="languageInput">Target Language:</label>
+                            <select id="languageInput" class="language-select">
+                                <option value="English">English</option>
+                                <option value="Spanish">Spanish</option>
+                                <option value="French">French</option>
+                                <option value="German">German</option>
+                                <option value="Italian">Italian</option>
+                                <option value="Portuguese">Portuguese</option>
+                                <option value="Russian">Russian</option>
+                                <option value="Chinese">Chinese (Simplified)</option>
+                                <option value="Japanese">Japanese</option>
+                                <option value="Korean">Korean</option>
+                                <option value="Arabic">Arabic</option>
+                                <option value="Hindi">Hindi</option>
+                            </select>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-block" id="submitTranslation">
+                            <i class="fas fa-language"></i>
+                            Translate
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Overlay -->
+            <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p class="loading-text">Processing with AI...</p>
+                </div>
+            </div>
+
+            <!-- Toast Notifications -->
+            <div class="toast-container" id="toastContainer"></div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 AI Book Assistant. Powered by OpenAI &amp; Flask.</p>
+        </div>
+    </footer>
+
+    <script>window.__FIREBASE_CONFIG__ = {{ firebase_config | tojson }};</script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="{{ url_for('static', filename='firebase-init.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

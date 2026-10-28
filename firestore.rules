@@ -1,0 +1,10 @@
+rules_version = '2';
+// Book text is written only by the Flask server (Firebase Admin SDK).
+// Lock client-side access unless you add the Firestore web SDK later.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
