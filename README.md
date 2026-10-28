@@ -1,202 +1,172 @@
 # AI Book Assistant
 
-A modern web application that uses AI to analyze PDF documents, providing summaries, Q&A, translations, and more.
+AI Book Assistant is a Python Flask-based web application that uses Artificial Intelligence to analyze PDF documents and make learning easier and more interactive. It can summarize books, answer questions about document content, translate text, generate insights, and convert text into speech.
 
 ## 🌟 Features
 
-- 📄 **PDF Upload & Processing** - Extract text from PDFs with multiple methods
-- 🤖 **AI-Powered Analysis** - Summarization, Q&A, key insights, sentiment analysis
-- 🌐 **Multi-Language Translation** - Translate content to 12+ languages
-- 🔊 **Text-to-Speech** - Listen to summaries and content
-- 🔐 **Secure Authentication** - Firebase-based user management
-- 🎨 **Modern UI** - Glassmorphism design with dark/light themes
+- 📄 **PDF Upload and Processing** – Extract text from PDF documents.
+- 🤖 **AI-Powered Summarization** – Generate summaries of book content.
+- 💬 **Question and Answer** – Ask questions about uploaded PDFs.
+- 📝 **MCQ Generation** – Generate multiple-choice questions for learning and practice.
+- 🌐 **Multi-Language Translation** – Translate content into multiple languages.
+- 🔊 **Text-to-Speech** – Listen to summaries and document content.
+- 🔐 **Secure Authentication** – Firebase-based user authentication.
+- 🎨 **Modern User Interface** – Responsive design with dark and light themes.
 
-## 🚀 Quick Start
+## 🛠️ Technologies Used
+
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Python, Flask
+- **AI Integration:** OpenRouter API
+- **Authentication:** Firebase Authentication
+- **Document Processing:** Python PDF-processing libraries
+- **Text-to-Speech:** gTTS
+
+## 🚀 Getting Started
 
 ### Prerequisites
-- Python 3.8+
-- OpenAI API key
-- (Optional) Firebase account for user authentication
+
+Install the following software:
+
+- Python 3.8 or later
+- Git
+- An OpenRouter API key for AI features
+- A Firebase project for authentication
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd ai-book-assistant
-   ```
-
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Set up environment**
-   ```bash
-   cp .env.example .env
-   # Edit .env and add your OpenAI API key
-   ```
-
-4. **Run the application**
-   ```bash
-   python app.py
-   ```
-
-5. **Access the application**
-   Open browser to: `http://localhost:5000`
-
-## 📁 Project Structure
-
-```
-ai-book-assistant/
-├── 📄 app.py                    # Main application entry point
-├── 📄 requirements.txt            # Python dependencies
-├── 📄 .env                      # Environment variables (API keys)
-├── 📄 .gitignore               # Git ignore rules
-│
-├── 📁 backend/                  # Flask backend application
-│   ├── 📄 __init__.py
-│   ├── 📄 app.py              # Main Flask app with all routes
-│   ├── 📄 auth_firebase.py    # Firebase authentication
-│   └── 📄 firebase_service.py # Firebase services
-│
-├── 📁 frontend/                 # Frontend assets
-│   ├── 📁 templates/           # HTML templates
-│   │   ├── 📄 index.html      # Main application page
-│   │   ├── 📄 login.html      # User login page
-│   │   └── 📄 register.html   # User registration page
-│   └── 📁 static/              # Static files
-│       ├── 📁 css/
-│       │   └── 📄 style.css      # Main stylesheet
-│       ├── 📁 js/
-│       │   ├── 📄 app.js         # Main JavaScript application
-│       │   └── 📄 firebase-init.js # Firebase initialization
-│       └── 📁 audio/            # Generated audio files
-│
-├── 📁 utils/                   # Utility scripts
-│   ├── 📄 setup.py           # Initial setup script
-│   └── 📄 test_api.py         # API testing script
-│
-├── 📁 docs/                    # Documentation
-│   ├── 📄 API.md             # API documentation
-│   ├── 📄 DEPLOYMENT.md      # Deployment guide
-│   └── 📄 TROUBLESHOOTING.md # Troubleshooting guide
-│
-├── 📁 uploads/                 # User uploaded PDFs
-└── 📁 logs/                    # Application logs
-```
-
-## 🔑 Environment Variables
-
-Create a `.env` file with the following variables:
+**1. Clone the repository**
 
 ```bash
-# OpenAI API Key (required)
-OPENAI_API_KEY=sk-your-openai-api-key-here
-
-# Firebase Configuration (optional - for user authentication)
-FIREBASE_SERVICE_ACCOUNT_PATH=path/to/service-account.json
-FIREBASE_WEB_API_KEY=your-web-api-key
-FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
-FIREBASE_PROJECT_ID=your-project-id
-FIREBASE_STORAGE_BUCKET=your-project.appspot.com
-FIREBASE_MESSAGING_SENDER_ID=your-sender-id
-FIREBASE_APP_ID=your-app-id
+git clone https://github.com/Prathamesh1456/AI-Book-Assistant-project.git
+cd AI-Book-Assistant-project
 ```
 
-## 🛠️ API Endpoints
+**2. Install dependencies**
 
-### Authentication Required
-All API endpoints (except health check) require Firebase authentication.
+```bash
+pip install -r requirements.txt
+```
 
-### PDF Operations
-- `POST /upload` - Upload and process PDF files
-- `GET /api/session` - Get current user session info
-- `POST /clear` - Clear user data and uploads
+**3. Configure environment variables**
 
-### AI Analysis Endpoints
-- `POST /ask` - Ask questions about uploaded PDF
-- `GET /summarize` - Generate PDF summary
-- `POST /translate` - Translate PDF content
-- `GET /insights` - Extract key insights from PDF
-- `GET /sentiment` - Analyze sentiment and tone
-- `POST /speak` - Convert text to speech
+Copy the example environment file.
 
-### System Endpoints
-- `GET /health` - Application health check
-- `GET /` - Main application page
-- `GET /login` - User login page
-- `GET /register` - User registration page
+On Windows PowerShell:
 
-## 🧪 Development
+```powershell
+Copy-Item .env.example .env
+```
 
-### Running in Development
+Open `.env` and configure the required API key and Firebase settings.
+
+Never upload your actual `.env` file or Firebase service-account private key to GitHub.
+
+**4. Run the application**
+
 ```bash
 python app.py
 ```
 
-The application will start on `http://localhost:5000` with debug mode enabled.
+**5. Open the application**
 
-### Testing API
-```bash
-python utils/test_api.py
+Open your browser and visit:
+
+http://127.0.0.1:5000
+
+The application address may differ if you configure a different port.
+
+## 📁 Project Structure
+
+```text
+AI-Book-Assistant-project/
+├── app.py
+├── requirements.txt
+├── .env.example
+├── .gitignore
+├── firestore.rules
+├── backend/
+│   ├── __init__.py
+│   ├── app.py
+│   ├── auth_firebase.py
+│   └── firebase_service.py
+├── frontend/
+│   ├── templates/
+│   │   ├── index.html
+│   │   ├── login.html
+│   │   └── register.html
+│   └── static/
+│       ├── css/
+│       │   ├── auth.css
+│       │   └── style.css
+│       ├── js/
+│       │   ├── app.js
+│       │   └── firebase-init.js
+│       └── audio/
+└── docs/
+    ├── API.md
+    ├── DEPLOYMENT.md
+    └── TROUBLESHOOTING.md
 ```
+
+## 🔑 Environment Variables
+
+Configure these variables in your local `.env` file as required by your application:
+
+```env
+OPENROUTER_API_KEY=
+OPENROUTER_MODEL=meta-llama/llama-3.2-3b-instruct:free
+OFFLINE_MODE=false
+
+FIREBASE_SERVICE_ACCOUNT_PATH=
+FIREBASE_WEB_API_KEY=
+FIREBASE_AUTH_DOMAIN=
+FIREBASE_PROJECT_ID=
+FIREBASE_STORAGE_BUCKET=
+FIREBASE_MESSAGING_SENDER_ID=
+FIREBASE_APP_ID=
+```
+
+Add your own values locally. Keep real credentials private.
+
+## 🔌 API Endpoints
+
+The application includes endpoints for operations such as:
+
+- PDF upload and processing
+- Asking questions about document content
+- Summarization
+- Translation
+- Extracting key insights
+- Sentiment analysis
+- Text-to-speech
+- Authentication and user sessions
+- Application health checks
+
+Refer to [`docs/API.md`](docs/API.md) for endpoint details.
 
 ## 📚 Documentation
 
-- [API Documentation](docs/API.md) - Detailed API reference
-- [Deployment Guide](docs/DEPLOYMENT.md) - Production deployment
-- [Troubleshooting](docs/TROUBLESHOOTING.md) - Common issues and solutions
-
-## 🔧 Configuration
-
-### PDF Processing
-- Multiple extraction methods: PyMuPDF, PyPDF2, pdfplumber
-- Optional OCR support with Tesseract
-- Maximum file size: 16MB
-- Supported formats: PDF
-
-### AI Features
-- Models: OpenAI GPT-3.5-turbo
-- Translation: 12+ languages supported
-- Text-to-speech: Google TTS (gTTS)
-- Sentiment analysis: Tone, style, audience analysis
-
-## 🎨 UI Features
-
-- **Responsive Design** - Works on desktop, tablet, and mobile
-- **Dark/Light Themes** - Toggle between themes
-- **Glassmorphism** - Modern frosted glass effects
-- **Smooth Animations** - Background gradients and transitions
-- **Progressive Enhancement** - Works without JavaScript
+- [API Documentation](docs/API.md)
+- [Deployment Guide](docs/DEPLOYMENT.md)
+- [Troubleshooting Guide](docs/TROUBLESHOOTING.md)
 
 ## 🔐 Security
 
-- Firebase Authentication
-- CORS protection
-- File type validation
-- Size limits enforcement
-- Input sanitization
+- Keep API keys and passwords out of source code.
+- Never commit `.env` or Firebase service-account private keys.
+- Configure appropriate Firebase authentication and Firestore security rules.
+- Validate uploaded files and user input.
+- Review Firebase security rules before deployment.
 
 ## 📄 License
 
-MIT License - See [LICENSE](LICENSE) file for details.
+Add your preferred open-source license if you intend to distribute this project under one.
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## 📞 Support
-
-For issues and questions:
-- Create an issue in the repository
-- Check the [troubleshooting guide](docs/TROUBLESHOOTING.md)
-- Review the [API documentation](docs/API.md)
+Contributions and suggestions are welcome. You can fork the repository, create a feature branch, make improvements, and submit a pull request.
 
 ---
 
-**Built with ❤️ using OpenAI, Flask, and Firebase**
+**Built with Python, Flask, AI, and Firebase.**
